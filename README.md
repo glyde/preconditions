@@ -1,7 +1,9 @@
 # Preconditions #
 
 A simple package to make the testing of method arguments easier to write and
-easier to read.
+easier to read, inspired by <a
+href="http://guava-libraries.googlecode.com/svn-history/r13/trunk/javadoc/com/google/common/base/Preconditions.html">Guava's
+Preconditions</a> class
 
 ## Overview ##
 
@@ -23,7 +25,7 @@ methods will be available to both class and instance methods equivalently.
 
 ## Usage ##
 
-To check for null arguments:
+To check for nil arguments:
 
     def my_meth(arg)
       Preconditions.check_not_nil(arg)
@@ -84,12 +86,12 @@ If you wish to avoid the `Preconditions` prefix on every call, you can include t
       include Preconditions
       
       def a(x)
-        check_not_null(x)
+        check_not_nil(x)
         ...
       end
       
       def self.b(y)
-        check_not_null(y)
+        check_not_nil(y)
         ...
       end
     end
