@@ -39,6 +39,12 @@ RSpec::Core::RakeTask.new(:rcov) do |spec|
   spec.rcov = true
 end
 
+# Task for CI reporting for Jenkins build
+require 'ci/reporter/rake/rspec'
+RSpec::Core::RakeTask.new(:ci_spec => ["ci:setup:rspec"]) do |spec|
+  spec.pattern = 'spec/**/*_spec.rb'
+end
+
 task :default => :spec
 
 require 'yard'
