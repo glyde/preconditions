@@ -59,6 +59,10 @@ end
       subject.check_type(1, Integer).should == 1
     end
 
+    it "returns the argument in a type check when the type is nil" do
+      subject.check_type(nil, Integer).should == nil
+    end
+
     it "raises a NameError when argument does not support requested method" do
       expect { subject.check_responds_to(1, :no_such_method) }.
         to raise_exception

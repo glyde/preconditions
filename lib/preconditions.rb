@@ -51,7 +51,7 @@ module Preconditions
     # @return obj
     # @raise [TypeError] if obj is not an instance of expected_type
     def check_type(obj, expected_type, msg=nil, *fmt)
-      if !obj.kind_of?(expected_type)
+      if !obj.nil? && !obj.kind_of?(expected_type)
         raise_exception(TypeError, msg, *fmt)
       end
       obj
