@@ -7,98 +7,56 @@ Preconditions</a> class
 
 ## Overview ##
 
-The Preconditions package provides a single module, Preconditions, with methods for:
-
-* Checking if an argument is nil
-* Checking if an argument satisfies a boolean condition (e.g. x > 10)
-* Checking if an argument responds to a certain method (duck typing)
-* Checking if an argument is of a specific type (strict typing)
-
-Each of these methods will raise an appropriate exception if the rule it is
-applying is violated.
-
-Preconditions can be checked either by using the `Preconditions` module
-directly, as in `Preconditions::check_not_nil(x)`, or by mixing the
-`Preconditions` module into your class to make the methods available without the
-`Preconditions` prefix.  If the module is mixed in the precondition checking
-methods will be available to both class and instance methods equivalently.
+The preconditions package provides a single module, `Preconditions`, which in turn provides a number of methods to check
+the validity of method arguments.  Two API styles are provided: a standard "command query" interface, where each check
+is a single method call with an optional message format, and a fluent DSL interface, where checks are built up using
+a more natural language.
 
 ## Usage ##
 
-To check for nil arguments:
+To use the command-query API you can access the `check_XXX` methods directly through the Preconditions module, like so:
 
-    def my_meth(arg)
-      Preconditions.check_not_nil(arg)
-      ...
-    end
-
-If you wish to supply a message simply include a string as your second
-parameter:
-
-    def my_meth(arg)
-      Preconditions.check_not_nil(arg, "nil values are evil!")
-      ...
-    end
-
-You can even use a format if you want to interpolate some variables into your
-message lazily:
-
-    def my_meth(arg)
-      Preconditions.check_not_nil(arg, "Using nil in context of: %s", @bigobj.to_s)
-      ...
-    end
-
-All methods support both a message and a message/format argument pair.
-
-To check an argument property:
-
-    def sqrt(num)
-      Preconditions.check_argument(num > 0)
-      ...
-    end
-
-or alternatively
-    
-    def sqrt(num)
-      Preconditions.check_block("sqrt doesn't yet support complex numbers") { num > 0 }
-      ...
-    end
-
-To check the type of an object being supplied:
-
-    def sqrt(num)
-      Preconditions.check_type(num, Integer, 
-                               "sqrt is integer only, you supplied a %s", num.class)
-      ...
-    end
-
-To check if an object will respond to a method you intend to call:
-
-    def sqrt(num)
-      Preconditions.check_reponds_to(num, :sqrt,
-                                     "yup, we're that lazy")
-      ...
-    end
-
-If you wish to avoid the `Preconditions` prefix on every call, you can include the `Preconditions` module into your class:
-
-    class SpiffyClass
-      include Preconditions
-      
-      def a(x)
-        check_not_nil(x)
-        ...
-      end
-      
-      def self.b(y)
-        check_not_nil(y)
-        ...
+    class MyMath
+      def sqrt(num)
+        Preconditions.check_not_nil(num)
+        Preconditions.check_type(num, Integer, "num argument must be an integer: non integer types are unsupported")
+        Preconditions.check_argument(num >= 0, "num argument must be greater than zero")
+        num.sqrt
       end
     end
 
-Where possible the `check_` methods will return the object being checked.  In
-the cases where this is not possible (`check_argument` and `check_block`) the
-boolean result of the expression is returned.
+You can also `include Preconditions` to import the command-query calls into your class for use without the
+`Preconditions` module prefix.  The full list of command-query calls is documented in the `Preconditions` module itself.
+
+To use the fluent DSL API use the `check(arg).is {}` form like so:
+
+    class MyMath
+      def sqrt(num)
+        Preconditions.check(num) { is_not_nil and has_type(Integer) and satisfies(">= 0") { arg >= 0 } }
+        num.sqrt
+      end
+    end
+
+Note that there is less opportunity for custom messaging in the fluent API.  However, a second argument to `check` can
+be supplied to add the argument name to any raised errors:
+
+    class MyMath
+      def sqrt(num)
+        Preconditions.check(num, 'num') { is_not_nil and has_type(Integer) and satisfies(">= 0") { arg >= 0 } }
+        num.sqrt
+      end
+    end
+
+In this case, if `num` is the value -10 then an [ArgumentError] will be raised with a message along the lines of
+"Argument 'num' must be >= 0, but was -10".
+
+The set of available checks is documented in the `ConditionChecker` documentation.
+
+The `check` method on the fluent API will not be imported when the `Preconditions` module is included: it can only be
+addressed with the `Preconditions` prefix.  This is to prevent possible name clashes with existing `check` methods in
+client code (check being a somewhat common verb).  The use of `and` as a separator in the DSL expression is purely
+for readability: newlines and semi-colons work just as well (all DSL methods either raise an exception or return true).
+
 
 ## Contributing to preconditions ##
  

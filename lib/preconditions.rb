@@ -1,7 +1,8 @@
-# 
+require 'condition_checker'
+
 module Preconditions
 
-  module PreconditionMethods
+  module PreconditionMixinMethods
 
     # Check that arg is not nil, raising an ArgumentError with an optional
     # message and format if it is nil
@@ -72,7 +73,7 @@ module Preconditions
     end
 
     def self.included(receiver)
-      receiver.extend PreconditionMethods
+      receiver.extend PreconditionMixinMethods
     end
 
     private
@@ -89,11 +90,24 @@ module Preconditions
     end
   end
 
+  module PreconditionModuleClassMethods
+    # Introduce a DSL expression to check the given argument, with the optionally given name.  This will return a
+    #[ConditionChecker] instance that can be used to build the DSL expression.
+    def check(argument, name = nil, &block)
+      cc = ConditionChecker.new(argument, name)
+      if block_given?
+        cc.instance_eval(&block)
+      end
+      argument
+    end
+  end
+
   class << self
-    include PreconditionMethods
+    include PreconditionMixinMethods
+    include PreconditionModuleClassMethods
   end
 
   def self.included(receiver)
-    receiver.send :include, PreconditionMethods
+    receiver.send :include, PreconditionMixinMethods
   end
 end

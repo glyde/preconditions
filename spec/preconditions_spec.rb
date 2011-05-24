@@ -71,6 +71,12 @@ end
     it "returns the argument when it supports the requested method" do
       subject.check_responds_to(1, :succ).should == 1
     end
+
+    it "should not expose dsl-only method #check when included" do
+      should_have_check = subject.class == Module
+      subject.respond_to?(:check).should == should_have_check
+    end
+
   end
 
 end
