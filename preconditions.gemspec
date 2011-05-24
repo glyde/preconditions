@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "VERSION",
     "lib/condition_checker.rb",
     "lib/preconditions.rb",
+    "preconditions.gemspec",
     "spec/preconditions_dsl_spec.rb",
     "spec/preconditions_spec.rb",
     "spec/spec_helper.rb"
