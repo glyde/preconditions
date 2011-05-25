@@ -32,7 +32,7 @@ To use the fluent DSL API use the `check(arg).is {}` form like so:
 
     class MyMath
       def sqrt(num)
-        Preconditions.check(num) { is_not_nil and has_type(Integer) and satisfies(">= 0") { arg >= 0 } }
+        Preconditions.check(num) { is_not_nil and has_type(Integer) and satisfies(">= 0") { num >= 0 } }
         num.sqrt
       end
     end
@@ -42,7 +42,7 @@ be supplied to add the argument name to any raised errors, or one can use the `#
 
     class MyMath
       def sqrt(num)
-        Preconditions.check(num).named('num') { is_not_nil and has_type(Integer) and satisfies(">= 0") { arg >= 0 } }
+        Preconditions.check(num).named('num') { is_not_nil and has_type(Integer) and satisfies(">= 0") { num >= 0 } }
         num.sqrt
       end
     end
