@@ -38,17 +38,17 @@ To use the fluent DSL API use the `check(arg).is {}` form like so:
     end
 
 Note that there is less opportunity for custom messaging in the fluent API.  However, a second argument to `check` can
-be supplied to add the argument name to any raised errors:
+be supplied to add the argument name to any raised errors, or one can use the `#named` method to supply a name:
 
     class MyMath
       def sqrt(num)
-        Preconditions.check(num, 'num') { is_not_nil and has_type(Integer) and satisfies(">= 0") { arg >= 0 } }
+        Preconditions.check(num).named('num') { is_not_nil and has_type(Integer) and satisfies(">= 0") { arg >= 0 } }
         num.sqrt
       end
     end
 
-In this case, if `num` is the value -10 then an [ArgumentError] will be raised with a message along the lines of
-"Argument 'num' must be >= 0, but was -10".
+In this case, if `num` is the value -10 then an `ArgumentError` will be raised with a message along the lines of
+`"Argument 'num' must be >= 0, but was -10"`.
 
 The set of available checks is documented in the `ConditionChecker` documentation.
 
