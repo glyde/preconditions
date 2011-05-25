@@ -97,8 +97,10 @@ module Preconditions
       cc = ConditionChecker.new(argument, name)
       if block_given?
         cc.instance_eval(&block)
+        argument # return the argument if a block is given to evaluate the check immediately
+      else
+        cc # return the checker if no evaluation block is supplied
       end
-      argument
     end
   end
 

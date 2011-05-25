@@ -13,6 +13,20 @@ class ConditionChecker
     @name = name
   end
 
+  # Set the name of the argument being checked
+  # @param name [String] the name of the parameter being checked
+  # @return argument if a block is given to evaluate, or self if not to allow for further method chaining
+  # @raises if a block is given and the validation rules specified therein are not met
+  def named(name, &block)
+    @name = name
+    if block_given?
+      instance_eval(&block)
+      arg
+    else
+      self
+    end
+  end
+
   # DSL call.  Establishes that the checked argument is non-nil.
   # @raises [ArgumentError] if the argument is nil
   # @return true

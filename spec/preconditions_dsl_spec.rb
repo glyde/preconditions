@@ -56,4 +56,11 @@ describe "dsl expression" do
     }.to raise_exception(ArgumentError, "Argument 'x' must be less than zero")
   end
 
+  it "should allow for name specification using the 'named' method" do
+    x = 1
+    expect {
+      Preconditions.check(x).named('x') { is_not_nil and satisfies("<= 0") { x <= 0 } }
+    }.to raise_exception(ArgumentError, "Argument 'x' must be <= 0")
+  end
+
 end
