@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{tucker}]
-  s.date = %q{2011-05-24}
+  s.date = %q{2011-05-25}
   s.description = %q{The Preconditions library provides a simple set of methods for checking arguments being passed into a method.  Instead of writing custom checks and raising exceptions directly in your code you can use Preconditions to verify basic properties of your arguments (not-nil, satisfying a boolean expression, being of a certain type/duck-type) and raise the appropriate exception for you.
 }
   s.email = %q{tucker+rubygems@glyde.com}
