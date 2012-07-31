@@ -58,6 +58,16 @@ class ConditionChecker
     true
   end
 
+  # DSL call.  Establishes that the checked argument matches the given regular expression
+  # @raises [ArgumentError] if the argument does not match the supplied regex
+  # @return true
+  def matches(regex)
+    if arg !~ regex
+      raise ArgumentError, format_message("must match the regex /#{regex.to_s}/")
+    end
+    true
+  end
+
   # DSL call.  Establishes that the checked argument satisfies an arbitrary condition specified in a block.  If the
   # block evaluates to true the argument passes; if it evaluates to false it fails and an [ArgumentError] is raised.
   # An optional message may be supplied to describe what the block is checking.

@@ -1,4 +1,4 @@
-require "rspec"
+require 'rspec'
 require 'preconditions'
 
 describe "dsl expression" do
@@ -32,6 +32,19 @@ describe "dsl expression" do
   it "should return the argument if all condition checks pass" do
     arg = 1
     res = Preconditions.check(arg, 'arg') { is_not_nil and has_type(Integer) }
+    res.should == arg
+  end
+
+  it 'should raise on a matches check if the regex does not match' do
+    arg = 'some string'
+    expect {
+      Preconditions.check(arg) { matches(/other thing/) }
+    }.to raise_exception(ArgumentError)
+  end
+
+  it 'should return true on a matches check if the regex does match' do
+    arg = 'some string'
+    res = Preconditions.check(arg) { matches(/me/) }
     res.should == arg
   end
 
