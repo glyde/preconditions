@@ -4,15 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{preconditions}
-  s.version = "0.2.1"
+  s.name = "preconditions"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = [%q{tucker}]
-  s.date = %q{2011-05-25}
-  s.description = %q{The Preconditions library provides a simple set of methods for checking arguments being passed into a method.  Instead of writing custom checks and raising exceptions directly in your code you can use Preconditions to verify basic properties of your arguments (not-nil, satisfying a boolean expression, being of a certain type/duck-type) and raise the appropriate exception for you.
-}
-  s.email = %q{tucker+rubygems@glyde.com}
+  s.authors = ["tucker"]
+  s.date = "2012-07-31"
+  s.description = "The Preconditions library provides a simple set of methods for checking arguments being passed into a method.  Instead of writing custom checks and raising exceptions directly in your code you can use Preconditions to verify basic properties of your arguments (not-nil, satisfying a boolean expression, being of a certain type/duck-type) and raise the appropriate exception for you.\n"
+  s.email = "tucker+rubygems@glyde.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.md"
@@ -31,11 +30,11 @@ Gem::Specification.new do |s|
     "spec/preconditions_spec.rb",
     "spec/spec_helper.rb"
   ]
-  s.homepage = %q{http://github.com/ctucker/preconditions}
-  s.licenses = [%q{MIT}]
-  s.require_paths = [%q{lib}]
-  s.rubygems_version = %q{1.8.3}
-  s.summary = %q{Preconditions checking support inspired by Guava}
+  s.homepage = "http://github.com/ctucker/preconditions"
+  s.licenses = ["MIT"]
+  s.require_paths = ["lib"]
+  s.rubygems_version = "1.8.22"
+  s.summary = "Preconditions checking support inspired by Guava"
   s.test_files = [
     "spec/preconditions_dsl_spec.rb",
     "spec/preconditions_spec.rb",
