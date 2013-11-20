@@ -111,5 +111,7 @@ module Preconditions
 
   def self.included(receiver)
     receiver.send :include, PreconditionMixinMethods
+    receiver.send :include, PreconditionModuleClassMethods
   end
+
 end
